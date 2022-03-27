@@ -1,0 +1,40 @@
+#https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html#_feign_logging
+
+feign:
+  cleint:
+    config:
+      default:
+        connectionTimeout: 1000
+        readTimeout: 3000
+        loggerLevel: FULL
+logging:
+  level:
+    info.thecodinglive.feignclient: debug
+
+
+
+server.port: 8083
+
+spring.config.import:
+    configserver: http://127.0.0.1:8888
+spring.profiles.active: dev
+
+spring.cloud:
+  config.enabled: true
+  config.name: mongo
+          #import=configserver: http://localhost:8888
+          #fail-fast: true
+
+spring.application.name: fastCamFeign
+
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+
